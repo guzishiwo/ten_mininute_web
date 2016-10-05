@@ -1,0 +1,5 @@
+#Django
+django >= 1.9
+#Test
+coverage >= 4.2
+django-nose >= 1.4
