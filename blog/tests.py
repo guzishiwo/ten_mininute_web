@@ -1,10 +1,10 @@
 from unittest import skip
 from django.test import TestCase
 from django.http import HttpRequest
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, reverse
 from django.template.loader import render_to_string
 from blog.forms import CommentForm
-from blog.views import home_page, detail_page
+from blog.views import HomePageView, CommentFormView
 from blog.models import Article, Comment
 
 
@@ -62,6 +62,9 @@ class CommentFormTest(TestCase):
     def test_comment_form_validation_for_valid_name(self):
         form = CommentForm(data={'name': 'test', 'content': 'simple content', 'create_on': 'xxxxx'})
         self.assertTrue(form.is_valid())
+        comment = form.save()
+        self.assertEqual(comment.name, "test")
+        self.assertEqual(comment.content, "simple content")
 
     def test_comment_form_validation_for_invalid_name(self):
         form = CommentForm(data={'name': 'admin', 'content': ''})
@@ -75,52 +78,45 @@ class CommentFormTest(TestCase):
 class DetailPageTest(TestCase):
 
     def test_detail_url_resolve_to_detail_page_view(self):
-        found = resolve('/detail')
-        self.assertEqual(found.func, detail_page)
+        view = resolve('/detail')
+        self.assertEqual(view.func.__name__,
+                         CommentFormView.as_view().__name__)
 
     def test_detail_page_renders_detail_template(self):
         response = self.client.get('/detail')
         self.assertTemplateUsed(response, 'article-detail.html')
 
-    def test_detail_page_use_item_form(self):
-        response = self.client.get('/detail')
-        self.assertEqual(response.context['form'], CommentForm)
+    # def test_detail_page_use_item_form(self):
+    #     response = self.client.get('/detail')
+    #     # self.assertEqual(response.context['comment_list'], CommentForm)
+    #     self.assertMultiLineEqual(response.context['comment_list'], CommentForm)
 
 
 class NewCommentTest(TestCase):
 
-    # def test_comment_form_save(self):
-    #     comment_ = Comment.objects.create(name='test', content='simple content')
-    #     form = CommentForm(data={'name': 'test', 'content': 'simple content'})
-    #     new_form = form.save(comment_)
-
-    # @skip('form failed')
     def test_normal_comment_sent_back_to_detail_template(self):
-        form_data = {'name': 'test', 'content': 'simple content'}
-        response = self.client.post('/detail', form_data)
-        self.assertEqual(response.status_code, 200)
+        comment_data = {'name': 'first', 'content': 'content'}
+        rsp = self.client.post('/detail', data=comment_data)
+        self.assertEqual(rsp.status_code, 302)
+        response = self.client.get(rsp.url)
         self.assertTemplateUsed(response, 'article-detail.html')
-        # expected_html = render_to_string('article-detail.html', {'form': CommentForm(form_data)})
-        # self.assertMultiLineEqual(response, 'simple content')
+        self.assertEqual(Comment.objects.get(name='first').name,
+                         'first')
 
 
 class HomePageTest(TestCase):
 
     def test_root_url_resolve_to_home_page_view(self):
         found = resolve('/')
-        self.assertEqual(found.func, home_page)
+        self.assertEqual(found.func.__name__, HomePageView.as_view().__name__)
 
     def test_visit_home_page(self):
-        request = HttpRequest()
-        request.method = 'GET'
-        response = home_page(request)
+        response = self.client.get('/')
         self.assertIn('ten minutes', response.content.decode())
 
     def test_visit_home_page_template(self):
-        request = HttpRequest()
-        request.method = 'GET'
         article = Article.objects.create(title='12345', content='haha', hits=300)
-        response = home_page(request)
+        response = self.client.get('/')
         self.assertIn('12345', response.content.decode())
         self.assertIn('haha', response.content.decode())
         self.assertIn('300', response.content.decode())

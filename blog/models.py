@@ -4,10 +4,11 @@ from django.db import models
 
 
 class Article(models.Model):
-    title = models.CharField(null=True, blank=True, max_length=128, )
-    content = models.CharField(null=True, blank=True, max_length=128)
-    create_on = models.DateTimeField(null=True, blank=True, auto_now_add=True)
-    hits = models.IntegerField(blank=True)
+    title = models.CharField(blank=True, max_length=128, verbose_name='标题')
+    content = models.TextField(null=True, blank=True, verbose_name='内容')
+    create_on = models.DateTimeField(blank=True, auto_now_add=True, verbose_name='创建时间')
+    update_on = models.DateField(auto_now=True, verbose_name='更新时间')
+    hits = models.IntegerField(blank=True, verbose_name='点击量')
 
     def __str__(self):
         return self.title
@@ -17,9 +18,9 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    name = models.CharField(null=True, blank=True, max_length=50, verbose_name='昵称')
-    content = models.TextField(max_length=500, blank=True, verbose_name='内容')
-    create_on = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    name = models.CharField(blank=True, max_length=50, verbose_name='昵称')
+    content = models.TextField(max_length=500, verbose_name='评论')
+    create_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

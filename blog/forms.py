@@ -24,14 +24,12 @@ class CommentForm(ModelForm):
     invalid_words_list = ['admin', 'super_admin', 'super_super_admin']
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(CommentForm, self).__init__(*args, **kwargs)
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
         for word in self.invalid_words_list:
             if word in name:
                 raise forms.ValidationError('Your comment contains invalid words,please check it again.')
+        return self.cleaned_data.get('name')
 
-    # def save(self, for_comment):
-    #     self.instance.comment = for_comment
-    #     return super().save()

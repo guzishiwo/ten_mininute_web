@@ -1,29 +1,27 @@
-from django.views.generic import View
-from django.shortcuts import render, redirect
-from blog.models import Article, Comment
+from django.views import generic
+from django.core.urlresolvers import reverse_lazy
 from blog.forms import CommentForm
+from blog.models import Article, Comment
 
 
-def home_page(request):
-    if request.method == 'GET':
-        Article.objects.create(title='test_one', content='test content', hits=300)
-        Article.objects.create(title='test_two', content='desc content', hits=400)
-        articles = Article.objects.all()
-        return render(request, 'detail.html', {'article_list': articles})
+class HomePageView(generic.ListView):
+    model = Article
+    context_object_name = 'article_list'
+    template_name = 'detail.html'
 
 
-def detail_page(request):
-    if request.method == "GET":
-        form = CommentForm
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            content = form.cleaned_data['content']
-            c = Comment.objects.create(name=name, content=content)
-            return redirect(to='detail')
-    context = {}
-    comment_list = Comment.objects.all()
-    context['comment_list'] = comment_list
-    context['form'] = form
-    return render(request, 'article-detail.html', context)
+class CommentFormView(generic.FormView):
+    model = Comment
+    template_name = 'article-detail.html'
+    form_class = CommentForm
+    success_url = reverse_lazy("detail")
+
+    def get_context_data(self, **kwargs):
+        context = super(CommentFormView, self).get_context_data(**kwargs)
+        context['comment_list'] = self.model.objects.all()
+        return context
+
+    def form_valid(self, form):
+        form.save(commit=True)
+        return super(CommentFormView, self).form_valid(form)
+

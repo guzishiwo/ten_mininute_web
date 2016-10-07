@@ -47,8 +47,11 @@
     <span style="color:#bbbbbb">{{ article.hits }}</span>
     <span class="" style="color:rgb(226, 226, 226)">|</span>
     <i class="icon grey checkmark"></i>
-    <span style="color:#bbbbbb">{{ article.datetime|date:"Y-m-d"}}</span>
-    <span style="color:#bbbbbb">5673 people got it</span>
+    <span style="color:#bbbbbb"> create_on:{{ article.create_on|date:"Y-m-d"}}</span>
+    <i class="icon grey checkmark"></i>
+    <span style="color:#bbbbbb"> 5673 people got it</span>
+    <i class="icon grey checkmark"></i>
+    <span style="color:#bbbbbb">update_on:{{ article.update_on|date:"Y-m-d"}}</span>
     <p>
         {{ article.content }}
     </p>
@@ -84,7 +87,7 @@
                             <label>搜索图片</label>
                         </div>
                         <div class="ui radio checkbox">
-                            <input type="radio" name="ia" value="web">
+                            <input type="radio" name="ia" value="color">
                             <label>搜索网站</label>
                         </div>
                     </div>

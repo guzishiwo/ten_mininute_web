@@ -16,10 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from blog.views import home_page, detail_page
+from blog.views import HomePageView, CommentFormView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home_page, name='home'),
-    url(r'^detail$', detail_page, name='detail'),
+    url(r'^$', HomePageView.as_view(), name='home'),
+    url(r'^detail$', CommentFormView.as_view(), name='detail'),
 ]
