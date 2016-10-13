@@ -86,10 +86,10 @@
 
 <div class="ui basic segment container content">
 
-    <div class="ui message">
-        <i class="ui checked calendar icon"></i>
-        Last View : {{ request.user.profile.last_activity }}
-    </div>
+{#    <i class="ui checked calendar icon"></i>#}
+    <h3 style="color:#bbbbbb">
+        Last View : {{ request.user.profile.last_activity|date:"Y-m-d H:i"}}
+    </h3>
 
     <div class="ui three column grid">
 

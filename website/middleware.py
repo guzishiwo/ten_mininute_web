@@ -1,5 +1,6 @@
-from django.utils import timezone
+# from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
+from django.utils import timezone
 from website.models.user import UserProfile
 
 
