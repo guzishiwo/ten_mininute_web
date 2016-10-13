@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
@@ -14,7 +13,7 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
 from website.forms import LoginForm
-from website.forms import CommentForm
+from website.forms import CommentForm, UserCreateForm
 from website.models import Article, Video
 
 
@@ -113,9 +112,10 @@ class LoginView(generic.FormView):
 
 class RegisterView(generic.FormView):
     template_name = 'user/Register.html'
-    form_class = UserCreationForm
+    form_class = UserCreateForm
+    success_url = reverse_lazy('login')
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.is_active:
-            return HttpResponseRedirect(reverse_lazy("login"))
-        return super(RegisterView, self).dispatch(request, *args, **kwargs)
+    # def dispatch(self, request, *args, **kwargs):
+    #     if request.user.is_authenticated and request.user.is_active:
+    #         return HttpResponseRedirect(reverse_lazy("login"))
+    #     return super(RegisterView, self).dispatch(request, *args, **kwargs)
