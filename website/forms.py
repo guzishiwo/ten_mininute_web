@@ -1,10 +1,15 @@
 from django import forms
+from django.contrib import admin
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
 from django.forms import ModelForm
-from blog.models import Comment
+from website.models import Comment
 
 
 class CommentForm(ModelForm):
-    # belong_to = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = Comment
@@ -33,4 +38,17 @@ class CommentForm(ModelForm):
             if word in name:
                 raise forms.ValidationError('Your comment contains invalid words,please check it again.')
         return self.cleaned_data.get('name')
+
+
+class LoginForm(ModelForm):
+
+    class Meta:
+        model = AbstractUser
+        field = ('username', 'password')
+
+        widgets = {
+            'password': forms.CharField(attrs={
+                forms.PasswordInput
+            })
+        }
 

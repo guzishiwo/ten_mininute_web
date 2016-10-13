@@ -2,8 +2,8 @@ from django.views import generic
 from django.core.paginator import EmptyPage
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
-from blog.forms import CommentForm
-from blog.models import Article, Video
+from website.forms import CommentForm
+from website.models import Article, Video
 
 
 class HomePageView(generic.ListView):

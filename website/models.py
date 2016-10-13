@@ -66,5 +66,4 @@ class Video(models.Model):
 #         url_image=url,
 #         editor_choice=fake.pybool()
 #     )
-#
-#
+

@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(blank=True, max_length=50, verbose_name='昵称')),
                 ('content', models.TextField(max_length=500, verbose_name='评论')),
                 ('create_on', models.DateTimeField(auto_now_add=True)),
-                ('belong_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='under_comments', to='blog.Article')),
+                ('belong_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='under_comments', to='website.Article')),
             ],
             options={
                 'ordering': ['create_on'],

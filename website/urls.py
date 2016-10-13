@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from blog.views import HomePageView, ArticleCommentView
+from website.views import HomePageView, ArticleCommentView
 
 urlpatterns = [
     url(

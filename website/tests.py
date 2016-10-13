@@ -3,9 +3,9 @@ from django.test import TestCase
 from django.http import HttpRequest
 from django.core.urlresolvers import resolve, reverse
 from django.template.loader import render_to_string
-from blog.forms import CommentForm
-from blog.views import HomePageView, ArticleCommentView
-from blog.models import Article, Comment
+from website.forms import CommentForm
+from website.views import HomePageView, ArticleCommentView
+from website.models import Article, Comment
 
 
 class ArticleModelTest(TestCase):

@@ -3,3 +3,7 @@ django >= 1.9
 #Test
 coverage >= 4.2
 django-nose >= 1.4
+#spider
+beatifulsoup4
+#fake
+faker
