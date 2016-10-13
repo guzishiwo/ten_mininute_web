@@ -4,14 +4,15 @@ from blog.models import Comment
 
 
 class CommentForm(ModelForm):
+    # belong_to = forms.CharField(required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = Comment
-        exclude = ('create_on', )
+        exclude = ('create_on', 'belong_to')
 
         widgets = {
             'content': forms.Textarea(attrs={
-                'placeholder': 'Enter your content'
+                'placeholder': '填写你的评论'
             }),
         }
 

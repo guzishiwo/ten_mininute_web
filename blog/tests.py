@@ -1,10 +1,10 @@
-from unittest import skip
+from datetime import datetime
 from django.test import TestCase
 from django.http import HttpRequest
 from django.core.urlresolvers import resolve, reverse
 from django.template.loader import render_to_string
 from blog.forms import CommentForm
-from blog.views import HomePageView, CommentFormView
+from blog.views import HomePageView, ArticleCommentView
 from blog.models import Article, Comment
 
 
@@ -12,6 +12,10 @@ class ArticleModelTest(TestCase):
 
     def create_article(self, title='first title', hits=300, content='test data'):
         return Article.objects.create(title=title, content=content, hits=hits)
+
+    def expect_absoulte_url(self, slug_title):
+        slash_time = datetime.now().strftime('%Y/%m/%d')
+        return '/articles/{slash_time}/{slug_title}'.format(slash_time=slash_time, slug_title=slug_title)
 
     def test_article_creation(self):
         w = self.create_article()
@@ -34,18 +38,27 @@ class ArticleModelTest(TestCase):
 
         # desc by hits fields
         self.assertEqual(first_save_article.title, 'two title')
+        self.assertEqual(first_save_article.slug, 'two-title')
         self.assertEqual(first_save_article.content, 'test data')
+        self.assertEqual(first_save_article.get_absolute_url(),
+                         self.expect_absoulte_url(first_save_article.slug))
         self.assertEqual(first_save_article.hits, 400)
 
         self.assertEqual(two_save_article.title, 'first title')
+        self.assertEqual(two_save_article.slug, 'first-title')
+        self.assertEqual(two_save_article.get_absolute_url(),
+                         self.expect_absoulte_url(two_save_article.slug))
         self.assertEqual(two_save_article.content, 'test data')
         self.assertEqual(two_save_article.hits, 300)
 
 
 class CommentModelTest(TestCase):
 
+    def create_article(self, title='first title', hits=300, content='test data'):
+        return Article.objects.create(title=title, content=content, hits=hits)
+
     def create_comment(self, name='test', content='simple content'):
-        return Comment.objects.create(name=name, content=content)
+        return Comment(name=name, content=content, belong_to=self.create_article())
 
     def test_comment_creation(self):
         w = self.create_comment()
@@ -55,13 +68,17 @@ class CommentModelTest(TestCase):
 
 class CommentFormTest(TestCase):
 
+    def create_article(self, title='first title', hits=300, content='test data'):
+        return Article.objects.create(title=title, content=content, hits=hits)
+
     def test_comment_form(self):
         form = CommentForm()
-        self.assertIn('placeholder="Enter your content"', form.as_p())
+        self.assertIn('placeholder="填写你的评论"', form.as_p())
 
     def test_comment_form_validation_for_valid_name(self):
-        form = CommentForm(data={'name': 'test', 'content': 'simple content', 'create_on': 'xxxxx'})
+        form = CommentForm(data={'name': 'test', 'content': 'simple content'})
         self.assertTrue(form.is_valid())
+        form.instance.belong_to = self.create_article()
         comment = form.save()
         self.assertEqual(comment.name, "test")
         self.assertEqual(comment.content, "simple content")
@@ -77,48 +94,46 @@ class CommentFormTest(TestCase):
 
 class DetailPageTest(TestCase):
 
+    def setUp(self):
+        self.article_one = Article.objects.create(title='first title', content='simple content', hits=300)
+        self.comment_one = Comment.objects.create(name='aly', content='test comment', belong_to=self.article_one)
+        self.article_url = self.article_one.get_absolute_url()
+
     def test_detail_url_resolve_to_detail_page_view(self):
-        view = resolve('/detail')
+        view = resolve(self.article_one.get_absolute_url())
         self.assertEqual(view.func.__name__,
-                         CommentFormView.as_view().__name__)
+                         ArticleCommentView.as_view().__name__)
 
-    def test_detail_page_renders_detail_template(self):
-        response = self.client.get('/detail')
+    def test_article_detail_page_renders_detail_template(self):
+        response = self.client.get(self.article_url)
         self.assertTemplateUsed(response, 'article-detail.html')
 
-    # def test_detail_page_use_item_form(self):
-    #     response = self.client.get('/detail')
-    #     # self.assertEqual(response.context['comment_list'], CommentForm)
-    #     self.assertMultiLineEqual(response.context['comment_list'], CommentForm)
+    def test_article_detail_page_use_item_form(self):
+        response = self.client.get(self.article_url)
+        self.assertEqual(response.context['article'], self.article_one)
 
-
-class NewCommentTest(TestCase):
-
-    def test_normal_comment_sent_back_to_detail_template(self):
-        comment_data = {'name': 'first', 'content': 'content'}
-        rsp = self.client.post('/detail', data=comment_data)
-        self.assertEqual(rsp.status_code, 302)
-        response = self.client.get(rsp.url)
-        self.assertTemplateUsed(response, 'article-detail.html')
-        self.assertEqual(Comment.objects.get(name='first').name,
-                         'first')
-
+    # def test_comment_form_success(self):
+    #     page = self.client.get(self.article_one.get_absolute_url())
+    #     page.form['name'] = "Phillip"
+        # page.form['content'] = "Simple Content"
+        # page = page.form.submit()
+        # self.assertRedirects(page, self.article_one.get_absolute_url())
 
 class HomePageTest(TestCase):
 
     def test_root_url_resolve_to_home_page_view(self):
-        found = resolve('/')
+        found = resolve(reverse('articles'))
         self.assertEqual(found.func.__name__, HomePageView.as_view().__name__)
 
     def test_visit_home_page(self):
-        response = self.client.get('/')
+        response = self.client.get(reverse('articles'))
         self.assertIn('ten minutes', response.content.decode())
 
     def test_visit_home_page_template(self):
-        article = Article.objects.create(title='12345', content='haha', hits=300)
-        response = self.client.get('/')
-        self.assertIn('12345', response.content.decode())
-        self.assertIn('haha', response.content.decode())
+        article = Article.objects.create(title='first article', content='simple content', hits=300)
+        response = self.client.get(reverse('articles'))
+        self.assertIn('first article', response.content.decode())
+        self.assertIn('simple content', response.content.decode())
         self.assertIn('300', response.content.decode())
 
 

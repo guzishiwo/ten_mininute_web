@@ -16,7 +16,7 @@
 <div class="ui inverted top fixed menu borderless red menu">
     <div class="header item">
         <div class="ui image">
-            <img src="static/images/tenlogo.png" alt="">
+            <img src="../static/images/tenlogo.png" alt="">
         </div>
     </div>
 
@@ -24,7 +24,7 @@
         <div class="item">
             <h5 class="ui inverted header">
                 <div class="ui mini circular image">
-                    <img src="images/face.html" alt="">
+                    <img src="../static/images/face.html" alt="">
                 </div>
 
                 <span>admin</span>
@@ -33,7 +33,7 @@
         </div>
         <div class="item">
 
-            <a href="http://127.0.0.1:8000/logout/" class="ui inverted circular button">Logout</a>
+            <a href="#" class="ui inverted circular button">Logout</a>
 
         </div>
     </div>
@@ -42,35 +42,37 @@
 
 <div class="ui basic segment container">
     {% for article in article_list %}
-    <h1 class="ui header">{{ article.title }}</h1>
-    <i class="icon grey unhide"></i>
-    <span style="color:#bbbbbb">{{ article.hits }}</span>
-    <span class="" style="color:rgb(226, 226, 226)">|</span>
-    <i class="icon grey checkmark"></i>
-    <span style="color:#bbbbbb"> create_on:{{ article.create_on|date:"Y-m-d"}}</span>
-    <i class="icon grey checkmark"></i>
-    <span style="color:#bbbbbb"> 5673 people got it</span>
-    <i class="icon grey checkmark"></i>
-    <span style="color:#bbbbbb">update_on:{{ article.update_on|date:"Y-m-d"}}</span>
-    <p>
-        {{ article.content }}
-    </p>
-    <div class="ui divider"></div>
-    <button class="ui  tiny button" type="submit" name="vote" value="like">
+        <a href={{ article.get_absolute_url }}>
+            <h1 class="ui header">{{ article.title }}</h1>
+        </a>
+        <i class="icon grey unhide"></i>
+        <span style="color:#bbbbbb">{{ article.hits }}</span>
+        <span class="" style="color:rgb(226, 226, 226)">|</span>
+        <i class="icon grey checkmark"></i>
+        <span style="color:#bbbbbb"> create_on:{{ article.create_on|date:"Y-m-d" }}</span>
+        <i class="icon grey checkmark"></i>
+        <span style="color:#bbbbbb"> 5673 people got it</span>
+        <i class="icon grey checkmark"></i>
+        <span style="color:#bbbbbb">update_on:{{ article.update_on|date:"Y-m-d" }}</span>
+        <p>
+            {{ article.content }}
+        </p>
+        <div class="ui divider"></div>
+        <button class="ui  tiny button" type="submit" name="vote" value="like">
 
-        <i class="icon checkmark"></i>
-        Get it!
-    </button>
+            <i class="icon checkmark"></i>
+            Get it!
+        </button>
 
-    <button class="ui red tiny button" type="submit" name="vote" value="normal">
-        <i class="icon bomb"></i>
-        Hmmm...
-    </button>
+        <button class="ui red tiny button" type="submit" name="vote" value="normal">
+            <i class="icon bomb"></i>
+            Hmmm...
+        </button>
 
-    <button class="ui secondary circular tiny right floated pin icon button">
-        <i class="pin icon"></i>
-        Saved
-    </button>
+        <button class="ui secondary circular tiny right floated pin icon button">
+            <i class="pin icon"></i>
+            Saved
+        </button>
 
     {% endfor %}
     <div class="ui teal segment">
@@ -98,6 +100,7 @@
 
     </div>
 
+</div>
 
 </body>
 

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'django_nose'
+    # 'django_nose'
 
 ]
 
@@ -77,14 +77,14 @@ WSGI_APPLICATION = 'ten_mins_web.wsgi.application'
 
 
 # Use nose to run all tests
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+#
 # Tell nose to measure coverage on the 'foo' and 'bar' apps
-NOSE_ARGS = [
-    '--with-coverage',
-    '--cover-package=blog',
-    '--cover-html'
-]
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=blog',
+#     '--cover-html'
+# ]
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
