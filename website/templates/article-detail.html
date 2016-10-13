@@ -21,16 +21,18 @@
     </div>
 
     <div class="right menu">
+        {% if request.user.is_authenticated %}
         <div class="item">
             <h5 class="ui inverted header">
                 <div class="ui mini circular image">
-                    <img src="../static/images/face.html" alt="">
+
                 </div>
 
                 <span>admin</span>
 
             </h5>
         </div>
+        {% endif %}
         <div class="item">
 
             <a href="#" class="ui inverted circular button">Logout</a>
@@ -97,7 +99,7 @@
 {#    </div>#}
     <div class="ui divider"></div>
     <form class="ui form" action="" method="post">
-        {{ form.as_table }}
+        {{ form.as_p }}
         {% csrf_token %}
         <button type="submit" class="ui red button">Click</button>
     </form>

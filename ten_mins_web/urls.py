@@ -16,15 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from blog.views import VideoView
+from website.views import VideoView, LoginView
 
 urlpatterns = [
     url(
         regex=r'^$',
         view=VideoView.as_view(),
-        name='video'
+        name='index'
+    ),
+    url(
+        regex=r'^login',
+        view=LoginView.as_view(),
+        name='login'
     ),
     url(r'^admin/', admin.site.urls),
-    url(r'^articles/', include('blog.urls')),
+    url(r'^articles/', include('website.urls')),
 
 ]

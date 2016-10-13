@@ -1,7 +1,19 @@
 from django.views import generic
+from django.http import JsonResponse
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.contrib import auth
+from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import logout
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth import authenticate
 from django.core.paginator import EmptyPage
 from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
+from website.forms import LoginForm
 from website.forms import CommentForm
 from website.models import Article, Video
 
@@ -73,3 +85,37 @@ class VideoView(generic.ListView):
         page = self.request.GET.get('page', '1')
         context['vids_list'], context['page_range'] = page_numbering(self.queryset, self.paginate_by, page)
         return context
+
+
+class LoginView(generic.FormView):
+    template_name = 'user/Login.html'
+    form_class = LoginForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_active:
+            return HttpResponseRedirect(reverse_lazy("index"))
+        return super(LoginView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        user = authenticate(username=form.cleaned_data['username'],
+                            password=form.cleaned_data['password'])
+        if user.is_active:
+            login(self.request, user)
+            messages.success(self.request, 'You are successfully logged in')
+            return HttpResponseRedirect(reverse_lazy("index"))
+        else:
+            data = {'response': 'You are not allowed to this page'}
+            return JsonResponse(data)
+
+    # def form_invalid(self, form):
+    #     return JsonResponse({"error": True, "errors": form.errors})
+
+
+class RegisterView(generic.FormView):
+    template_name = 'user/Register.html'
+    form_class = UserCreationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_active:
+            return HttpResponseRedirect(reverse_lazy("login"))
+        return super(RegisterView, self).dispatch(request, *args, **kwargs)

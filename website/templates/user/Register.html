@@ -1,0 +1,10 @@
+{% extends "user/base.html" %}
+{% block title %} Register {% endblock %}
+{% block content %}
+    <form class="ui form" method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+{#    <button class="ui inverted red circular right floated button">Login</button>#}
+    <button class="ui inverted red circular right floated button" type="submit">Done</button>
+    </form>
+{% endblock %}

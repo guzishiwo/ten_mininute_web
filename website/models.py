@@ -1,5 +1,6 @@
 from faker import Factory
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
@@ -57,6 +58,12 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+
+class UserProfile(models.Model):
+    belong_to = models.OneToOneField(to=User, related_name='profile')
+    profile_image = models.FileField(upload_to='profile_image')
+
+
 # f = open('img_urls.txt', 'r')
 # fake = Factory.create()
 # for url in f.readlines():
@@ -66,4 +73,4 @@ class Video(models.Model):
 #         url_image=url,
 #         editor_choice=fake.pybool()
 #     )
-
+#
