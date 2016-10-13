@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -42,23 +43,15 @@ class CommentForm(ModelForm):
         return self.cleaned_data.get('name')
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField(label="Username", max_length=254)
-    password = forms.CharField(label="Password", widget=forms.PasswordInput)
-
+class LoginForm(AuthenticationForm):
     class Meta:
         model = User
-        fields = ('username', 'password')
+        fields = ("username", "password1")
 
-    def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if user is None:
-                raise forms.ValidationError('Incorrect Login Details')
-
-        return self.cleaned_data
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        for field_name in ['username', 'password']:
+            self.fields[field_name].help_text = None
 
 
 class UserCreateForm(UserCreationForm):

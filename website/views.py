@@ -115,7 +115,3 @@ class RegisterView(generic.FormView):
     form_class = UserCreateForm
     success_url = reverse_lazy('login')
 
-    # def dispatch(self, request, *args, **kwargs):
-    #     if request.user.is_authenticated and request.user.is_active:
-    #         return HttpResponseRedirect(reverse_lazy("login"))
-    #     return super(RegisterView, self).dispatch(request, *args, **kwargs)
