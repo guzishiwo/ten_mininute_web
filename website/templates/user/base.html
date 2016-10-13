@@ -1,71 +1,72 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% load staticfiles %}
-        <meta charset="utf-8">
-        <title>
-            {% block title %} {% endblock %}
-        </title>
-        <link rel="stylesheet" href="../../static/css/semantic.css" media="screen" title="no title" charset="utf-8">
-        <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <title>
+        {% block title %} {% endblock %}
+    </title>
+    <link rel="stylesheet" href="../../static/css/semantic.css" media="screen" title="no title" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
 
-    </head>
+</head>
 
-    <style type="text/css">
-        body {
-            background: url(../../static/images/super_blur_back2.jpg);
-            background-size: cover;
-        }
+<style type="text/css">
+    body {
+        background: url(../../static/images/super_blur_back2.jpg);
+        background-size: cover;
+    }
 
-        .ui.grid.divided.segment.container{
-            height: 400px;
-            width:600px !important;
-            border:rgba(255, 0, 0, 0);
-            position: absolute;
-            left: 50%;
-            top:40%;
-            transform: translate(-50%,-50%);
-        }
+    .ui.grid.divided.segment.container {
+        height: 400px;
+        width: 600px !important;
+        border: rgba(255, 0, 0, 0);
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translate(-50%, -50%);
+    }
 
-        .five.wide.column {
-            background: url(../../static/images/red_regi.jpg);
-            background-size: cover;
-            background-position: 60% 0%;
-        }
+    .five.wide.column {
+        background: url(../../static/images/red_regi.jpg);
+        background-size: cover;
+        background-position: 60% 0%;
+    }
 
-        form {
-            margin-top: 30px;
-        }
-        h1,h3,h4{
-            font-family: 'Play', sans-serif !important;
+    form {
+        margin-top: 30px;
+    }
 
-        }
-    </style>
+    h1, h3, h4 {
+        font-family: 'Play', sans-serif !important;
 
-    <body>
-        <div class="ui grid divided segment container">
-            <div class="five wide  column">
+    }
+</style>
 
-                <h4 class="ui inverted header">
+<body>
+<div class="ui grid divided segment container">
+    <div class="five wide  column">
 
-                    <i class="angle left  icon"></i>
-                </h4>
+        <h4 class="ui inverted header">
 
-                <h1 class="ui inverted center aligned header" style="font-size: 40px;margin-top:55px">
-                    <p class="sub header">
-                        Welcome to
-                    </p>
-                    10MINs
-                </h1>
+            <i class="angle left  icon"></i>
+        </h4>
 
-            </div>
+        <h1 class="ui inverted center aligned header" style="font-size: 40px;margin-top:55px">
+            <p class="sub header">
+                Welcome to
+            </p>
+            10MINs
+        </h1>
 
-            <div class="eleven wide column">
-                <h4 class="ui inverted right aligned header">
-                    <a href="#" style="color:#ff695e;">or LOGIN</a>
-                </h4>
-                {% block content %} {% endblock %}
-            </div>
-        </div>
-    </body>
+    </div>
+
+    <div class="eleven wide column">
+        <h4 class="ui inverted right aligned header">
+            {% block right_corner_menu %} {% endblock %}
+        </h4>
+        {% block content %} {% endblock %}
+    </div>
+</div>
+</body>
 </html>

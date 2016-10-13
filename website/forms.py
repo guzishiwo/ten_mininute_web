@@ -1,15 +1,10 @@
 from django import forms
-from django.contrib import admin
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.forms import ModelForm
-from website.models import Comment
+
+from website.models.articles import Comment
 
 
 class CommentForm(ModelForm):

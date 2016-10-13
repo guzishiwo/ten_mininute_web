@@ -16,7 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from website.views import VideoView, LoginView, RegisterView
+from website.views import VideoView
+from website.views import LoginView
+from website.views import LogoutView
+from website.views import RegisterView
 
 urlpatterns = [
     url(
@@ -33,6 +36,12 @@ urlpatterns = [
         regex=r'^register',
         view=RegisterView.as_view(),
         name='register'
+
+    ),
+    url(
+        regex=r'^logout',
+        view=LogoutView.as_view(),
+        name='logout'
 
     ),
     url(r'^admin/', admin.site.urls),

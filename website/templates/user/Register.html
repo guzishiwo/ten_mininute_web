@@ -1,5 +1,8 @@
 {% extends "user/base.html" %}
 {% block title %} Register {% endblock %}
+{% block right_corner_menu %}
+    <a href="{% url 'login' %}" style="color:#ff695e;">or Login</a>
+{% endblock %}
 {% block content %}
     <form class="ui form" method="post">
     {{ form.as_p }}

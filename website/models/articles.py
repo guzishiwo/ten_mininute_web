@@ -1,6 +1,5 @@
 from faker import Factory
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
@@ -47,22 +46,6 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['create_on']
-
-
-class Video(models.Model):
-    title = models.CharField(null=True, blank=True, max_length=300)
-    content = models.TextField(null=True, blank=True)
-    url_image = models.URLField(null=True, blank=True)
-    editor_choice = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.title
-
-
-class UserProfile(models.Model):
-    belong_to = models.OneToOneField(to=User, related_name='profile')
-    profile_image = models.FileField(upload_to='profile_image')
-
 
 # f = open('img_urls.txt', 'r')
 # fake = Factory.create()

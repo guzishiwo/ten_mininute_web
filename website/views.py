@@ -1,20 +1,19 @@
-from django.views import generic
-from django.http import JsonResponse
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.contrib import auth
 from django.contrib import messages
+from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth import authenticate
 from django.core.paginator import EmptyPage
-from django.core.paginator import Paginator
 from django.core.paginator import PageNotAnInteger
-from website.forms import LoginForm
+from django.core.paginator import Paginator
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.http import JsonResponse
+from django.views import generic
+
 from website.forms import CommentForm, UserCreateForm
-from website.models import Article, Video
+from website.forms import LoginForm
+from website.models.articles import Article
+from website.models.video import Video
 
 
 class HomePageView(generic.ListView):
@@ -75,7 +74,7 @@ def page_numbering(queryset, paginate_by, request_page):
 
 class VideoView(generic.ListView):
     model = Video
-    template_name = 'listing.html'
+    template_name = 'index.html'
     paginate_by = 9
     queryset = Video.objects.all()
 
@@ -106,12 +105,17 @@ class LoginView(generic.FormView):
             data = {'response': 'You are not allowed to this page'}
             return JsonResponse(data)
 
-    # def form_invalid(self, form):
-    #     return JsonResponse({"error": True, "errors": form.errors})
-
 
 class RegisterView(generic.FormView):
     template_name = 'user/Register.html'
     form_class = UserCreateForm
     success_url = reverse_lazy('login')
+
+
+class LogoutView(generic.RedirectView):
+    url = 'login/'
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
 
