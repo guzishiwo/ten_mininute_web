@@ -13,7 +13,7 @@ from django.views import generic
 from website.forms import CommentForm, UserCreateForm
 from website.forms import LoginForm
 from website.models.articles import Article
-from website.models.video import Video
+from website.models.video import Video, Ticket
 
 
 class HomePageView(generic.ListView):
@@ -91,6 +91,13 @@ class VideoDetailView(generic.DetailView):
     context_object_name = 'vid_info'
     pk_url_kwarg = 'id'
 
+    def get(self, request, *args, **kwargs):
+        voter_id = request.user.profile.id
+        like_counts = Ticket.objects.filter(choice='like', video_id=id).count()
+
+    def get_context_data(self, **kwargs):
+        context = super(VideoDetailView, self).get_context_data(**kwargs)
+        vid_info = self.model.objects.get(id=id)
 
 class LoginView(generic.FormView):
     template_name = 'user/Login.html'
