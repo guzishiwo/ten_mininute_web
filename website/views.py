@@ -19,12 +19,12 @@ from website.models.video import Video
 class HomePageView(generic.ListView):
     model = Article
     context_object_name = 'article_list'
-    template_name = 'list_details.html'
+    template_name = 'articles/list_details.html'
 
 
 class ArticleViewMixin(generic.TemplateView):
     model = Article
-    template_name = 'article-detail.html'
+    template_name = 'articles/article-detail.html'
 
     def get_object(self):
         year = self.kwargs.get("year")
@@ -83,6 +83,13 @@ class VideoView(generic.ListView):
         page = self.request.GET.get('page', '1')
         context['vids_list'], context['page_range'] = page_numbering(self.queryset, self.paginate_by, page)
         return context
+
+
+class VideoDetailView(generic.DetailView):
+    model = Video
+    template_name = 'detail.html'
+    context_object_name = 'vid_info'
+    pk_url_kwarg = 'id'
 
 
 class LoginView(generic.FormView):

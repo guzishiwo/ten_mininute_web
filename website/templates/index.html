@@ -86,34 +86,33 @@
 
 <div class="ui basic segment container content">
 
-{#    <i class="ui checked calendar icon"></i>#}
+    {#    <i class="ui checked calendar icon"></i>#}
     <h3 style="color:#bbbbbb">
-        Last View : {{ request.user.profile.last_activity|date:"Y-m-d H:i"}}
+        Last View : {{ request.user.profile.last_activity|date:"Y-m-d H:i" }}
     </h3>
 
     <div class="ui three column grid">
 
         {% for vid in vids_list %}
             <div class="column">
-                {#                        <a class="ui fluid card" href="{% url 'video' vid.id %}">#}
-                <a class="ui fluid card">
-                    <div class="image">
-                        {% if vid.cover %}
-                            <img src="/upload/{{ vid.cover }}" alt="" style="height:200px;object-fit: cover;">
-                        {% else %}
-                            <img src="{{ vid.url_image }}" alt="" style="height:200px;object-fit: cover;">
-                        {% endif %}
+                <a class="ui fluid card" href="{% url 'detail' vid.id %}">
+                        <div class="image">
+                            {% if vid.cover %}
+                                <img src="/upload/{{ vid.cover }}" alt="" style="height:200px;object-fit: cover;">
+                            {% else %}
+                                <img src="{{ vid.url_image }}" alt="" style="height:200px;object-fit: cover;">
+                            {% endif %}
 
 
-                    </div>
-                </a>
+                        </div>
+                    </a>
 
-                <div class="title header" href="#">{{ vid.title|truncatechars:30 }}</div>
-                <i class="icon grey unhide"></i>
-                <span style="color:#bbbbbb">10K</span>
-                <span class="" style="color:rgb(226, 226, 226)">|</span>
-                <i class="icon grey checkmark"></i>
-                <span style="color:#bbbbbb">10 people got it</span>
+                    <div class="title header" href="#">{{ vid.title|truncatechars:30 }}</div>
+                    <i class="icon grey unhide"></i>
+                    <span style="color:#bbbbbb">10K</span>
+                    <span class="" style="color:rgb(226, 226, 226)">|</span>
+                    <i class="icon grey checkmark"></i>
+                    <span style="color:#bbbbbb">10 people got it</span>
 
             </div>
 

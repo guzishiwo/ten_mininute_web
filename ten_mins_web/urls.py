@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from website.views import VideoView
+from website.views import VideoDetailView
 from website.views import LoginView
 from website.views import LogoutView
 from website.views import RegisterView
@@ -43,6 +44,11 @@ urlpatterns = [
         view=LogoutView.as_view(),
         name='logout'
 
+    ),
+    url(
+        regex=r'^detail/(?P<id>\d+)$',
+        view=VideoDetailView.as_view(),
+        name='detail'
     ),
     url(r'^admin/', admin.site.urls),
     url(r'^articles/', include('website.urls')),
