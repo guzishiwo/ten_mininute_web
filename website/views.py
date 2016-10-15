@@ -5,11 +5,11 @@ from django.contrib.auth import logout
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.core.paginator import Paginator
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.views import generic
-
+from django.shortcuts import render, redirect
 from website.forms import CommentForm, UserCreateForm
 from website.forms import LoginForm
 from website.models.articles import Article
@@ -85,14 +85,13 @@ class VideoView(generic.ListView):
         return context
 
 
-class VideoDetailView(generic.TemplateView):
+class VideoDetailView(generic.View):
     model = Video
     template_name = 'detail.html'
-    context_object_name = 'vid_info'
     pk_url_kwarg = 'id'
 
     def get_context_data(self, **kwargs):
-        context = super(VideoDetailView, self).get_context_data(**kwargs)
+        context = {}
         video_info = self.model.objects.get(id=self.kwargs['id'])
         like_counts = Ticket.objects.filter(choice='like', video_id=self.kwargs['id']).count()
         voter_id = self.request.user.profile.id
@@ -104,6 +103,21 @@ class VideoDetailView(generic.TemplateView):
         context['like_counts'] = like_counts
         context['video_info'] = video_info
         return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        voter_id = self.request.user.profile.id
+        _id = self.kwargs['id']
+        try:
+            user_ticket_for_this_video = Ticket.objects.get(voter_id=voter_id, video_id=_id)
+        except Ticket.DoesNotExist:
+            Ticket.objects.create(voter_id=voter_id, video_id=self.kwargs['id'], choice=_id)
+        else:
+            user_ticket_for_this_video.choice = request.POST['vote']
+            user_ticket_for_this_video.save()
+        return redirect(to='detail', id=_id)
 
 
 class LoginView(generic.FormView):

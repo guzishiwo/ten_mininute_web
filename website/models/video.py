@@ -7,7 +7,7 @@ class Video(models.Model):
     content = models.TextField(null=True, blank=True)
     url_image = models.URLField(null=True, blank=True)
     editor_choice = models.BooleanField(default=False)
-
+    
     def __str__(self):
         return self.title
 

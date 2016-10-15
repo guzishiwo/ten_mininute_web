@@ -67,54 +67,54 @@
         {{ video_info.content }}
     </p>
     <div class="ui divider"></div>
-    {#                <form class="ui form" action="{% url 'vote' vid_info.id %}" method="post">#}
-    {#                    {% csrf_token %}#}
-    {##}
-    {% if user_ticket.choice == 'like' %}
-        <button class="ui red tiny button" type="submit" name="vote" value="normal">
-            <i class="icon checkmark"></i>
-            Get it!
+    <form class="ui form" action="{% url 'detail' video_info.id %}" method="post">
+        {% csrf_token %}
+
+        {% if user_ticket.choice == 'like' %}
+            <button class="ui red tiny button" type="submit" name="vote" value="normal">
+                <i class="icon checkmark"></i>
+                Get it!
+            </button>
+
+            <button class="ui  tiny button" type="submit" name="vote" value="dislike">
+                <i class="icon bomb"></i>
+                Hmmm...
+            </button>
+
+        {% elif user_ticket.choice == 'dislike' %}
+
+            <button class="ui tiny button" type="submit" name="vote" value="like">
+                <i class="icon checkmark"></i>
+                Get it!
+            </button>
+
+            <button class="ui red tiny button" type="submit" name="vote" value="normal">
+                <i class="icon bomb"></i>
+                Hmmm...
+            </button>
+
+        {% else %}
+            <button class="ui  tiny button" type="submit" name="vote" value="like">
+                <i class="icon checkmark"></i>
+                Get it!
+            </button>
+
+            <button class="ui  tiny button" type="submit" name="vote" value="dislike">
+                <i class="icon bomb"></i>
+                Hmmm...
+            </button>
+
+        {% endif %}
+
+
+
+        <button class="ui secondary circular tiny right floated pin icon button">
+            <i class="pin icon"></i>
+            Saved
         </button>
 
-        <button class="ui  tiny button" type="submit" name="vote" value="dislike">
-            <i class="icon bomb"></i>
-            Hmmm...
-        </button>
 
-    {% elif user_ticket.choice == 'dislike' %}
-
-        <button class="ui tiny button" type="submit" name="vote" value="like">
-            <i class="icon checkmark"></i>
-            Get it!
-        </button>
-
-        <button class="ui red tiny button" type="submit" name="vote" value="normal">
-            <i class="icon bomb"></i>
-            Hmmm...
-        </button>
-
-    {% else %}
-        <button class="ui  tiny button" type="submit" name="vote" value="like">
-            <i class="icon checkmark"></i>
-            Get it!
-        </button>
-
-        <button class="ui  tiny button" type="submit" name="vote" value="dislike">
-            <i class="icon bomb"></i>
-            Hmmm...
-        </button>
-
-    {% endif %}
-
-
-
-    <button class="ui secondary circular tiny right floated pin icon button">
-        <i class="pin icon"></i>
-        Saved
-    </button>
-    {##}
-    {##}
-    {#                </form>#}
+    </form>
 </div>
 
 </body>
