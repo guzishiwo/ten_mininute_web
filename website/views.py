@@ -85,19 +85,26 @@ class VideoView(generic.ListView):
         return context
 
 
-class VideoDetailView(generic.DetailView):
+class VideoDetailView(generic.TemplateView):
     model = Video
     template_name = 'detail.html'
     context_object_name = 'vid_info'
     pk_url_kwarg = 'id'
 
-    def get(self, request, *args, **kwargs):
-        voter_id = request.user.profile.id
-        like_counts = Ticket.objects.filter(choice='like', video_id=id).count()
-
     def get_context_data(self, **kwargs):
         context = super(VideoDetailView, self).get_context_data(**kwargs)
-        vid_info = self.model.objects.get(id=id)
+        video_info = self.model.objects.get(id=self.kwargs['id'])
+        like_counts = Ticket.objects.filter(choice='like', video_id=self.kwargs['id']).count()
+        voter_id = self.request.user.profile.id
+        try:
+            user_ticket_for_this_video = Ticket.objects.get(voter_id=voter_id, video_id=self.kwargs['id'])
+            context['user_ticket'] = user_ticket_for_this_video
+        except Exception as e:
+            print('Video Detail View', e)
+        context['like_counts'] = like_counts
+        context['video_info'] = video_info
+        return context
+
 
 class LoginView(generic.FormView):
     template_name = 'user/Login.html'
