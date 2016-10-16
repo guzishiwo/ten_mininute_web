@@ -1,3 +1,6 @@
+## 数据库已初始化(包含大量图片链接，内容等）
+账号： admin
+密码： admin1234
 
 ### 爬取图片URL
 spider/spider.py
@@ -21,6 +24,13 @@ spider/spider.py
 
 5. 浏览器输入URL
     1. http://127.0.0.1:8000/  
-    2. http://127.0.0.1:8000/articles
-    3. http://127.0.0.1:8000/articles/2016/10/11/title
+    2. http://127.0.0.1:8000/login
+    3. http://127.0.0.1:8000/logout  
+    4. http://127.0.0.1:8000/register
+    5. http://127.0.0.1:8000/articles
+    6. http://127.0.0.1:8000/articles/2016/10/11/title
+    7. http://127.0.0.1:8000/video/1
+    8. http://127.0.0.1:8000/change_password
+    9. http://127.0.0.1:8000/collect_videos
+    10. http://127.0.0.1:8000/change_person_info
 
