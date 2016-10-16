@@ -107,14 +107,23 @@
         {% endif %}
 
 
-
-        <button class="ui secondary circular tiny right floated pin icon button">
+        <button class="ui secondary circular tiny right floated pin icon button" type="submit"
+        name="collect" value="true">
             <i class="pin icon"></i>
             Saved
         </button>
 
 
     </form>
+    <div class="ui divider"></div>
+    {% if users.all %}
+        {% for user in users.all %}
+            <div class="ui image">
+            <img class="ui circular image" src={{ user.profile_image }}>
+            <span>{{ user.username }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
 
 </body>

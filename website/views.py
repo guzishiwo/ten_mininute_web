@@ -102,6 +102,7 @@ class VideoDetailView(generic.View):
             print('Video Detail View', e)
         context['like_counts'] = like_counts
         context['video_info'] = video_info
+        context['users'] = self.model.users.all()
         return context
 
     def get(self, request, *args, **kwargs):
