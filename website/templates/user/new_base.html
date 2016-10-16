@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="{% static 'css/list_custom.css' %}" media="screen" title="no title" charset="utf-8">
     <link href="https://fonts.googleapis.com/css?family=Oswald|Raleway" rel="stylesheet">
+    <script src="{% static 'js/jquery.js' %}"></script>
 
+    <script src="{% static 'js/semantic.js' %}"></script>
 
 </head>
 <body>
@@ -66,14 +68,14 @@
         <a class="active item" href={% url 'change_password' %}>
             Change Password
         </a>
-        <a class="item", href={% url 'change_person_info' %}>
+        <a class="item" href={% url 'change_person_info' %}>
             Change Person Info
         </a>
-        <a class="item">
-
+        <a class="item" href={% url 'collect_videos' %}>
+            Collect Video
         </a>
     </div>
-    <div class="ui bottom attached segment" style="height: 400px;">
+    <div class="ui bottom attached segment" style="height: 500px;">
         {% block content %}
         {% endblock %}
     </div>

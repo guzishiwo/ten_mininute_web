@@ -1,5 +1,6 @@
 from django.db import models
 from .user import UserProfile
+from django.core.urlresolvers import reverse
 
 
 class Video(models.Model):
@@ -12,6 +13,9 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'id': self.id})
 
 
 class Ticket(models.Model):

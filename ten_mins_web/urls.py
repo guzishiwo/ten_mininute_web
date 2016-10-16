@@ -23,6 +23,7 @@ from website.views import LogoutView
 from website.views import RegisterView
 from website.views import ChangePasswordView
 from website.views import ChangeUserInfoView
+from website.views import CollectVideoView
 
 urlpatterns = [
     url(
@@ -57,7 +58,11 @@ urlpatterns = [
         view=ChangeUserInfoView.as_view(),
         name="change_person_info"
     ),
-
+    url(
+        regex=r'^collect_videos/$',
+        view=CollectVideoView.as_view(),
+        name="collect_videos"
+    ),
     url(
         regex=r'^detail/(?P<id>\d+)$',
         view=VideoDetailView.as_view(),

@@ -1,0 +1,13 @@
+{% extends "user/new_base.html" %}
+{% block title %} Display Collect Article {% endblock %}
+{% block content %}
+    {% for video in videos %}
+        <div class="ui positive message">
+            <div class="header">
+                <a href={{ video.get_absolute_url }}>
+                    {{ video.title }}
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

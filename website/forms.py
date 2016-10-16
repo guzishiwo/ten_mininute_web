@@ -95,5 +95,14 @@ class ChangeUserInfoForm(ModelForm):
         model = UserProfile
         exclude = ('belong_to', 'last_activity')
 
-    # def __init__(self, *args, **kwargs):
-    #     super(ChangeUserInfoForm, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(ChangeUserInfoForm, self).__init__(*args, **kwargs)
+        self.fields['profile_image'].required = False
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        if isinstance(phone, str):
+            forms.ValidationError('phone number is str please again enter you phone')
+        if len(phone) != 11:
+            forms.ValidationError('phone number is not eleven numbers')
+        return phone

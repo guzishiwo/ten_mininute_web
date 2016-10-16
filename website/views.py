@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.core.paginator import EmptyPage
@@ -13,6 +14,7 @@ from django.views import generic
 from django.shortcuts import render, redirect
 from website.forms import LoginForm
 from website.models.articles import Article
+from website.models.user import UserProfile
 from website.models.video import Video, Ticket
 from website.forms import (
     CommentForm, UserCreateForm, ChangePasswordForm, ChangeUserInfoForm)
@@ -196,5 +198,22 @@ class ChangeUserInfoView(generic.FormView):
     success_url = reverse_lazy("change_person_info")
 
     def form_valid(self, form):
-        form.save(commit=True)
+        # try:
+        # except UserProfile.DoesNotExist:
+        print(isinstance(self.request.user, User))
+        form.instance.belong_to = self.request.user
+        form.save()
         return super(ChangeUserInfoView, self).form_valid(form)
+
+
+class CollectVideoView(generic.TemplateView):
+    template_name = 'user/collect_videos.html'
+    model = Video
+    context_object_name = 'videos'
+
+    def get_context_data(self, **kwargs):
+        context = super(CollectVideoView, self).get_context_data(**kwargs)
+        user_profile = self.request.user.profile
+        context['videos'] = user_profile.video.all()
+        return context
+
