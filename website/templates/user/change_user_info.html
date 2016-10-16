@@ -1,0 +1,10 @@
+{% extends "user/new_base.html" %}
+{% block title %} Modify Person Info{% endblock %}
+{% block content %}
+    <form class="ui form" method="post">
+        <h1 class="ui dividing header">Modify Person Info</h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="ui inverted red circular right floated button" type="submit">Done</button>
+    </form>
+{% endblock %}

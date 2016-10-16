@@ -90,8 +90,9 @@ class VideoModelTest(TestCase):
         users = self.video.users.all()
         self.assertEqual(list(users), [self.user_profile_1, self.user_profile_2])
 
-    # def test_filter_collected_user(self):
-    #     video = self.video
-    #     video.users.add(self.user_profile_1, self.user_profile_2)
-    #     vid = Video.objects.filter(users__in=[])
-    #     # if not vid:
+    def test_video_remove_user(self):
+        video = self.video
+        video.users.add(self.user_profile_1, self.user_profile_2)
+        video.users.remove(self.user_profile_1)
+        users = self.video.users.all()
+        self.assertEqual(list(users), [self.user_profile_2])

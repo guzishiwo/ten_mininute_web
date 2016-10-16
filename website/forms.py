@@ -1,9 +1,10 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-
+from website.models.user import UserProfile
 from website.models.articles import Comment
 
 
@@ -67,3 +68,32 @@ class UserCreateForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': "Enter Your old password (Required)"}))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': "Enter Your new password (Required)"}
+    ))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'placeholder': "Enter Your confirms password (Required)"}
+    ))
+
+    def clean_confirm_password(self):
+        old_password = self.cleaned_data.get("old_password")
+        password = self.cleaned_data.get("password")
+        confirm_password = self.cleaned_data.get("confirm_password")
+        if password != confirm_password and password == old_password:
+            raise forms.ValidationError("Passwords do not match!!!")
+        return confirm_password
+
+
+class ChangeUserInfoForm(ModelForm):
+
+    class Meta:
+        model = UserProfile
+        exclude = ('belong_to', 'last_activity')
+
+    # def __init__(self, *args, **kwargs):
+    #     super(ChangeUserInfoForm, self).__init__(*args, **kwargs)
