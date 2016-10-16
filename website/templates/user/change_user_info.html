@@ -2,7 +2,10 @@
 {% block title %} Modify Person Info{% endblock %}
 {% block content %}
     <form class="ui form" method="put">
-        <h1 class="ui dividing header">Modify Person Info</h1>
+        <h3 class="ui horizontal divider header">
+            <i class="pin icon"></i>
+            Modify Person Info
+        </h3>
         {% csrf_token %}
         {{ form.as_p}}
         <button class="ui inverted red circular right floated button" type="submit">Done</button>
