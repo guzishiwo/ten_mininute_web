@@ -198,9 +198,6 @@ class ChangeUserInfoView(generic.FormView):
     success_url = reverse_lazy("change_person_info")
 
     def form_valid(self, form):
-        # try:
-        # except UserProfile.DoesNotExist:
-        print(isinstance(self.request.user, User))
         form.instance.belong_to = self.request.user
         form.save()
         return super(ChangeUserInfoView, self).form_valid(form)
