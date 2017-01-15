@@ -18,19 +18,16 @@ spider/spider.py
     ```
 3. 测试所有用例(确保所有测试用例通过）再启动第四步
     `python manage.py test website`
-  
+
 4. 在 manage.py 所在目录执行
     `python manage.py runserver`
 
-5. 浏览器输入URL
-    1. http://127.0.0.1:8000/  
-    2. http://127.0.0.1:8000/login
-    3. http://127.0.0.1:8000/logout  
-    4. http://127.0.0.1:8000/register
-    5. http://127.0.0.1:8000/articles
-    6. http://127.0.0.1:8000/articles/2016/10/11/title
-    7. http://127.0.0.1:8000/video/1
-    8. http://127.0.0.1:8000/change_password
-    9. http://127.0.0.1:8000/collect_videos
-    10. http://127.0.0.1:8000/change_person_info
+# Login 图片
+ ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/login.jpg)
 
+ # Register
+ ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/register.jpg)
+
+
+ # Index
+ ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/index.jpg)
