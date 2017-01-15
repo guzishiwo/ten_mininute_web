@@ -18,6 +18,8 @@ from website.models.user import UserProfile
 from website.models.video import Video, Ticket
 from website.forms import (
     CommentForm, UserCreateForm, ChangePasswordForm, ChangeUserInfoForm)
+from rest_framework import serializers, viewsets, routers
+
 
 
 class HomePageView(generic.ListView):
@@ -213,4 +215,5 @@ class CollectVideoView(generic.TemplateView):
         user_profile = self.request.user.profile
         context['videos'] = user_profile.video.all()
         return context
+
 
