@@ -23,11 +23,11 @@ spider/spider.py
     `python manage.py runserver`
 
 # Login 图片
- ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/login.png)
+ ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/login.png)
 
  # Register
- ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/Register.png)
+ ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/Register.png)
 
 
  # Index
- ![image](https://github.com/guzishiwo/ten_mininute_web/screenshots/index.png)
+ ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/index.png)
