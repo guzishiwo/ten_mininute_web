@@ -1,4 +1,4 @@
-## 数据库已初始化(包含大量图片链接，内容等）
+﻿## 数据库已初始化(包含大量图片链接，内容等）
 账号： admin
 密码： admin1234
 
@@ -22,12 +22,15 @@ spider/spider.py
 4. 在 manage.py 所在目录执行
     `python manage.py runserver`
 
-# Login 图片
+
  ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/login.png)
 
- # Register
+
  ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/Register.png)
 
 
- # Index
+
  ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/index.png)
+
+
+ ![image](https://github.com/guzishiwo/ten_mininute_web/blob/master/screenshots/article.png)
